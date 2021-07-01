@@ -1,8 +1,8 @@
 # Konnect Backend
----
+
 ## Data models
 
-```json
+```
 profile: {
     id:
     username:
@@ -30,7 +30,7 @@ profile: {
 }
 ```
 
-```json
+```
 tags: {
     id:
     name:
@@ -38,7 +38,7 @@ tags: {
 }
 ```
 
-```json
+```
 activities: {
     id:
     emoji:
