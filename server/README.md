@@ -55,8 +55,6 @@ activities: {
 ---
 
 ## API Specification
-
-- `api/test/` : Test endpoint
   
 - `api/profile/`
   
