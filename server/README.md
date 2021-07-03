@@ -4,7 +4,6 @@
 
 ```
 user: {
-    id:
     username:
     name:
     year:
@@ -32,7 +31,6 @@ user: {
 
 ```
 tags: {
-    id:
     name:
     icon:
 }
@@ -40,7 +38,6 @@ tags: {
 
 ```
 activities: {
-    id:
     emoji:
     tags:[]
     startdate:
