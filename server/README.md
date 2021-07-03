@@ -3,7 +3,7 @@
 ## Data models
 
 ```
-profile: {
+user: {
     id:
     username:
     name:
@@ -56,15 +56,15 @@ activities: {
 
 ## API Specification
   
-- `api/profile/`
+- `api/users/`
   
-  - `GET api/profile/:id` : To get details of a user with id
+  - `GET api/users/:id` : To get details of a user with id
     
   - `POST` : Add a new user
     
-  - `PUT` : To modify the data of an existing user
+  - `PUT api/users/:id` : To modify the data of an existing user
     
-  - `DELETE` : To remove a user's details
+  - `DELETE api/users/:id` : To remove a user's details
     
 - `api/activities/`
   
@@ -72,9 +72,9 @@ activities: {
     
   - `POST` : Add a new activity
     
-  - `PUT` : Modify an existing activity
+  - `PUT api/activities/:id` : Modify an existing activity
     
-  - `DELETE` : Delete an existing activity
+  - `DELETE api/activities/:id` : Delete an existing activity
     
 - `api/tags/`
   
@@ -82,9 +82,9 @@ activities: {
     
   - `POST` : Add a new tag
     
-  - `PUT` : Modify an existing tag
+  - `PUT api/tags/:id` : Modify an existing tag
     
-  - `DELETE` : Delete an existing tag
+  - `DELETE api/tags/:id` : Delete an existing tag
     
 - `api/admin/`
   
