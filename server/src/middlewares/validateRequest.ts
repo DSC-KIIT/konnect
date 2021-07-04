@@ -17,7 +17,10 @@ class validateRequests {
                 error: paramMissingError,
             });
         }
-        if (keys.every((key) => Object.keys(user).includes(key))) {
+        if (
+            keys.every((key) => Object.keys(user).includes(key)) &&
+            Object.keys(keys).length == Object.keys(user).length
+        ) {
             next();
         } else
             res.status(BAD_REQUEST).json({
@@ -33,7 +36,10 @@ class validateRequests {
                 error: paramMissingError,
             });
         }
-        if (keys.every((key) => Object.keys(activity).includes(key))) {
+        if (
+            keys.every((key) => Object.keys(activity).includes(key)) &&
+            Object.keys(keys).length == Object.keys(activity).length
+        ) {
             next();
         } else
             res.status(BAD_REQUEST).json({
@@ -50,7 +56,10 @@ class validateRequests {
                 error: paramMissingError,
             });
         }
-        if (keys.every((key) => Object.keys(tag).includes(key))) {
+        if (
+            keys.every((key) => Object.keys(tag).includes(key)) &&
+            Object.keys(keys).length == Object.keys(tag).length
+        ) {
             next();
         } else
             res.status(BAD_REQUEST).json({
