@@ -13,7 +13,7 @@ const dbConfig = {
 oracledb.autoCommit = true;
 
 async function getKey(email: string) {
-    let connection, collection, res;
+    let connection, collection, res, key;
     let keys: string[] = [];
 
     try {
@@ -21,14 +21,11 @@ async function getKey(email: string) {
         const soda = connection.getSodaDatabase();
         collection = await soda.openCollection('users');
 
-        res = await collection.find().filter({ email: email }).getDocuments();
+        res = await collection.find().filter({ email: email }).getOne();
     } catch (err) {
         console.error(err);
     }
-    res.forEach(function (element: any) {
-        const content = element.key;
-        keys.push(content);
-    });
+    key = res.key;
     if (connection) {
         try {
             await connection.close();
@@ -36,7 +33,7 @@ async function getKey(email: string) {
             console.error(err);
         }
     }
-    return keys[0];
+    return key;
 }
 
 export default getKey;
