@@ -1,6 +1,5 @@
 const oracledb = require('oracledb');
 require('dotenv').config();
-import { IUser } from '@entities/User';
 
 const dbConfig = {
     user: process.env.NODE_ORACLEDB_USER,
