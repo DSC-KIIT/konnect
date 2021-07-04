@@ -13,6 +13,34 @@ import express from 'express';
 let userRouter = express.Router();
 
 /**
+ * Get all users.
+ *
+ * @param req
+ * @param res
+ * @returns
+ */
+userRouter.get('/', async function (req: Request, res: Response) {
+    const users = await userDao.getAll();
+    return res.status(OK).json({ users });
+});
+/**
+ * Get key by email
+ *
+ * @param req
+ * @param res
+ * @returns
+ */
+userRouter.post('/key', async function (req: Request, res: Response) {
+    const { email } = req.body;
+    if (!email) {
+        return res.status(BAD_REQUEST).json({
+            error: paramMissingError,
+        });
+    }
+    const key = await userDao.getKeyByEmail(email);
+    return res.status(OK).json({ key: key });
+}); 
+/**
  * Get one user.
  *
  * @param req
