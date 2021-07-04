@@ -19,15 +19,15 @@ class Activity implements IActivity {
     public likes: number[];
     public media: string[];
 
-    constructor(Activity: IActivity) {
-        this.emoji = Activity.emoji;
-        this.tags = Activity.tags;
-        this.startdate = Activity.startdate;
-        this.enddate = Activity.enddate;
-        this.title = Activity.title;
-        this.description = Activity.description;
-        this.likes = Activity.likes;
-        this.media = Activity.media;
+    constructor(Activity?: IActivity) {
+        this.emoji = Activity?.emoji || '';
+        this.tags = Activity?.tags || [];
+        this.startdate = Activity?.startdate || '';
+        this.enddate = Activity?.enddate || '';
+        this.title = Activity?.title || '';
+        this.description = Activity?.description || '';
+        this.likes = Activity?.likes || [];
+        this.media = Activity?.media || [];
     }
 }
 

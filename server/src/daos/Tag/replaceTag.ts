@@ -11,6 +11,8 @@ const dbConfig = {
     poolIncrement: 0,
 };
 
+oracledb.autoCommit = true;
+
 async function replaceTag(key: string, tag: ITag) {
     let connection, collection, res;
 

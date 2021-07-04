@@ -1,78 +1,78 @@
 import StatusCodes from 'http-status-codes';
 import { Request, Response } from 'express';
-import UserDao from '@daos/User/UserDao';
+import ActivityDao from '@daos/Activity/ActivityDao';
 import { paramMissingError } from '@shared/constants';
 
-const userDao = new UserDao();
+const activityDao = new ActivityDao();
 const { BAD_REQUEST, CREATED, OK } = StatusCodes;
 
 import validateRequests from '@middlewares/validateRequest';
 const validateRequest = new validateRequests();
 
 import express from 'express';
-let userRouter = express.Router();
+let activityRouter = express.Router();
 
 /**
- * Get one user.
+ * Get one activity.
  *
  * @param req
  * @param res
  * @returns
  */
-userRouter.get('/:id', async function (req: Request, res: Response) {
+activityRouter.get('/:id', async function (req: Request, res: Response) {
     const { id } = req.params;
-    const user = await userDao.getOne(id);
-    return res.status(OK).json({ user });
+    const activity = await activityDao.getOne(id);
+    return res.status(OK).json({ activity });
 });
 
 /**
- * Add one user.
+ * Add one activity.
  *
  * @param req
  * @param res
  * @returns
  */
-userRouter.post(
+activityRouter.post(
     '/',
-    validateRequest.isUser,
+    validateRequest.isActivity,
     async function (req: Request, res: Response) {
-        const user = req.body;
+        const activity = req.body;
 
-        await userDao.add(user);
+        await activityDao.add(activity);
         return res.status(CREATED).end();
     }
 );
 
 /**
- * Update one user.
+ * Update one activity.
  *
  * @param req
  * @param res
  * @returns
  */
-userRouter.put(
+activityRouter.put(
     '/:id',
-    validateRequest.isUser,
+    validateRequest.isActivity,
     async function (req: Request, res: Response) {
         const { id } = req.params;
-        const user = req.body;
+        const Activity = req.body;
 
-        await userDao.update(id, user);
+        await activityDao.update(id, Activity);
         return res.status(OK).end();
     }
 );
 
 /**
- * Delete one user.
+ * Delete one activity.
  *
  * @param req
  * @param res
  * @returns
  */
-userRouter.delete('/:id', async function (req: Request, res: Response) {
+activityRouter.delete('/:id', async function (req: Request, res: Response) {
     const { id } = req.params;
-    await userDao.delete(id);
+    await activityDao.delete(id);
     return res.status(OK).end();
 });
 
-export default userRouter;
+export default activityRouter;

@@ -11,6 +11,8 @@ const dbConfig = {
     poolIncrement: 0,
 };
 
+oracledb.autoCommit = true;
+
 async function insertActivity(activity: IActivity) {
     let connection, collection;
 

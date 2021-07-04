@@ -10,6 +10,8 @@ const dbConfig = {
     poolIncrement: 0,
 };
 
+oracledb.autoCommit = true;
+
 async function deleteActivity(key: string) {
     let connection, collection, res;
 

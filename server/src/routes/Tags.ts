@@ -1,78 +1,78 @@
 import StatusCodes from 'http-status-codes';
 import { Request, Response } from 'express';
-import UserDao from '@daos/User/UserDao';
+import TagDao from '@daos/Tag/TagDao';
 import { paramMissingError } from '@shared/constants';
 
-const userDao = new UserDao();
+const tagDao = new TagDao();
 const { BAD_REQUEST, CREATED, OK } = StatusCodes;
 
 import validateRequests from '@middlewares/validateRequest';
 const validateRequest = new validateRequests();
 
 import express from 'express';
-let userRouter = express.Router();
+let tagRouter = express.Router();
 
 /**
- * Get one user.
+ * Get one tag.
  *
  * @param req
  * @param res
  * @returns
  */
-userRouter.get('/:id', async function (req: Request, res: Response) {
+tagRouter.get('/:id', async function (req: Request, res: Response) {
     const { id } = req.params;
-    const user = await userDao.getOne(id);
-    return res.status(OK).json({ user });
+    const tag = await tagDao.getOne(id);
+    return res.status(OK).json({ tag });
 });
 
 /**
- * Add one user.
+ * Add one tag.
  *
  * @param req
  * @param res
  * @returns
  */
-userRouter.post(
+tagRouter.post(
     '/',
-    validateRequest.isUser,
+    validateRequest.isTag,
     async function (req: Request, res: Response) {
-        const user = req.body;
+        const tag = req.body;
 
-        await userDao.add(user);
+        await tagDao.add(tag);
         return res.status(CREATED).end();
     }
 );
 
 /**
- * Update one user.
+ * Update one tag.
  *
  * @param req
  * @param res
  * @returns
  */
-userRouter.put(
+tagRouter.put(
     '/:id',
-    validateRequest.isUser,
+    validateRequest.isTag,
     async function (req: Request, res: Response) {
         const { id } = req.params;
-        const user = req.body;
+        const tag = req.body;
 
-        await userDao.update(id, user);
+        await tagDao.update(id, tag);
         return res.status(OK).end();
     }
 );
 
 /**
- * Delete one user.
+ * Delete one tag.
  *
  * @param req
  * @param res
  * @returns
  */
-userRouter.delete('/:id', async function (req: Request, res: Response) {
+tagRouter.delete('/:id', async function (req: Request, res: Response) {
     const { id } = req.params;
-    await userDao.delete(id);
+    await tagDao.delete(id);
     return res.status(OK).end();
 });
 
-export default userRouter;
+export default tagRouter;

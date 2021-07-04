@@ -11,7 +11,9 @@ const dbConfig = {
     poolIncrement: 0,
 };
 
-async function replaceUser(key: string, activity: IActivity) {
+oracledb.autoCommit = true;
+
+async function replaceActivity(key: string, activity: IActivity) {
     let connection, collection, res;
 
     try {
@@ -32,4 +34,4 @@ async function replaceUser(key: string, activity: IActivity) {
     }
 }
 
-export default replaceUser;
+export default replaceActivity;

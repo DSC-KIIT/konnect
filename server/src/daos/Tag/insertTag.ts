@@ -11,6 +11,8 @@ const dbConfig = {
     poolIncrement: 0,
 };
 
+oracledb.autoCommit = true;
+
 async function insertTag(tag: ITag) {
     let connection, collection;
 
