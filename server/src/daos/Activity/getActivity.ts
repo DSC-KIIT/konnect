@@ -13,14 +13,15 @@ const dbConfig = {
 oracledb.autoCommit = true;
 
 async function getActivity(key: string) {
-    let connection, collection, res;
+    let connection, collection, res, doc;
 
     try {
         connection = await oracledb.getConnection(dbConfig);
         const soda = connection.getSodaDatabase();
         collection = await soda.openCollection('activities');
 
-        res = await collection.find().key(key).getOne();
+        doc = await collection.find().key(key).getOne();
+        res = doc.getContent()
     } catch (err) {
         console.error(err);
     }
@@ -31,7 +32,7 @@ async function getActivity(key: string) {
             console.error(err);
         }
     }
-    return res.getContent();
+    return res
 }
 
 export default getActivity;

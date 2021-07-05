@@ -19,8 +19,8 @@ async function getUser(key: string) {
         connection = await oracledb.getConnection(dbConfig);
         const soda = connection.getSodaDatabase();
         collection = await soda.openCollection('users');
-        res = await collection.find().key(key).getOne();
-        doc = res.getContent()
+        doc = await collection.find().key(key).getOne();
+        res = doc.getContent();
     } catch (err) {
         console.error(err);
     }
@@ -31,7 +31,7 @@ async function getUser(key: string) {
             console.error(err);
         }
     }
-    return doc;
+    return res;
 }
 
 export default getUser;
