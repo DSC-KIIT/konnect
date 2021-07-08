@@ -6,6 +6,7 @@ const NameAndInfo = ({ name, username, info, pronouns, location }) => {
     return (
         <VStack align="left" my="3">
             <Heading fontSize="3xl">{name}</Heading>
+			
 			<Text>@{username}</Text>
 			<Text>{info} • {pronouns} • {location}</Text>
         </VStack>
