@@ -12,7 +12,7 @@ import {
 
 import { ChevronDown, ChevronUp } from "react-feather"
 
-const ActivityCard = ({ title, date, emoji, description }) => {
+const ActivityCard = ({ title, date, emoji, children }) => {
     const { isOpen, onToggle } = useDisclosure()
 
     return (
@@ -32,10 +32,10 @@ const ActivityCard = ({ title, date, emoji, description }) => {
 
                 <div>
                     <VStack align="flex-start" spacing="0px">
-                        <Text fontSize="sm" fontWeight={700}>{date}</Text>
-                        <Text fontSize="lg">
-                            {title}
+                        <Text fontSize="sm" fontWeight={700}>
+                            {date}
                         </Text>
+                        <Text fontSize="lg">{title}</Text>
                     </VStack>
                 </div>
 
@@ -50,7 +50,7 @@ const ActivityCard = ({ title, date, emoji, description }) => {
                 </div>
             </HStack>
             <Collapse in={isOpen} animateOpacity>
-                <Box m="3">{description}</Box>
+                <Box m="3">{children}</Box>
             </Collapse>
         </Box>
     )
@@ -64,8 +64,9 @@ const Activity = ({ data }) => {
                     title="Started working on Notion Tools"
                     date="June 16th, 2021"
                     emoji="🍎"
-                    description="djasndkajndakjndksjdnkajndkasjndkajsdnaksjdnakjsdnkasjdnaksjdn"
-                ></ActivityCard>
+                >
+                    djasndkajndakjndksjdnkajndkasjndkajsdnaksjdnakjsdnkasjdnaksjdn
+                </ActivityCard>
             ))}
         </Box>
     )
