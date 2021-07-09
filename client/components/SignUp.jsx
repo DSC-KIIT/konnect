@@ -24,7 +24,7 @@ const SignUp = () => {
         '795020868226-esnbl4ke1vtg4ijgsihbj7qmsdgdid1r.apps.googleusercontent.com';
 
     const onSuccess = (res) => {
-        setLoading(false)
+        console.log(res)
         setEmail(res.profileObj.email)
         // refreshTokenSetup(res);
         console.log(res);

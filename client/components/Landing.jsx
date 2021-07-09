@@ -34,7 +34,6 @@ const Landing = () => {
         onFailure,
         onSuccess,
         clientId,
-        onAutoLoadFinished,
         hostedDomain: "kiit.ac.in",
         isSignedIn: true,
     })
