@@ -1,11 +1,45 @@
-import React from "react"
-import Image from "next/image"
-import { Flex, Box, Heading, Text, Button, Spacer } from "@chakra-ui/react"
-
+import React, { useState } from "react"
+// import Image from "next/image"
+import { Flex, Box, Heading, Text, Button, Image } from "@chakra-ui/react"
+import { useRouter } from 'next/router'
 import landingGraphicDesktop from "../public/landing-desktop.svg"
 import landingGraphicMobile from "../public/landing.svg"
+import {useGoogleLogin} from 'react-google-login';
 
 const Landing = () => {
+    let [loading, setLoading] = useState(true)
+    const router = useRouter()
+
+    const checkIfSignedUp=async(email)=>{
+        router.push('/signup')
+    }
+
+    const clientId =
+        '795020868226-esnbl4ke1vtg4ijgsihbj7qmsdgdid1r.apps.googleusercontent.com';
+
+    const onSuccess = async (res) => {
+        checkIfSignedUp(res.profileObj.email)
+    };
+
+    const onFailure = (res) => {
+        console.log('Login failed: res:', res);
+    };
+
+    const onAutoLoadFinished = (res) => {
+        if (res == false) {
+            checkIfSignedUp(res.profileObj.email)
+        }
+    }
+
+    const { signIn } = useGoogleLogin({
+        onFailure,
+        onSuccess,
+        clientId,
+        onAutoLoadFinished,
+        hostedDomain: "kiit.ac.in",
+        isSignedIn: true,
+    })
+
     return (
         <Box h="100vh" overflow="hidden">
             <Flex direction="column" w="100%" alignItems="center" p="6" pb="0">
@@ -32,22 +66,11 @@ const Landing = () => {
                         }}
                         _active={{ bg: "orange" }}
                         color="white"
+                        onClick={signIn}
                     >
-                        Sign Up
+                       Login / SignUp
                     </Button>
-                    <Button
-                        px="10"
-                        fontSize="xl"
-                        py="6"
-                        fontWeight={400}
-                        color="orange"
-                        border="2px solid orange"
-                        backgroundColor="white"
-                        _hover={{ bg: "white" }}
-                        _active={{ bg: "white" }}
-                    >
-                        Login
-                    </Button>
+
                 </Flex>
 
                 <Box
