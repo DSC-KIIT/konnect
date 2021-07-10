@@ -14,7 +14,7 @@ class MyDocument extends Document {
                     <Main />
                     <NextScript />
                 </body>
-				<script src="https://kit.fontawesome.com/f0e3875af3.js" crossorigin="anonymous"></script>
+				<script src="https://kit.fontawesome.com/f0e3875af3.js" crossOrigin="anonymous"></script>
             </Html>
         )
     }

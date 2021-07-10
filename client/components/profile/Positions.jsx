@@ -19,14 +19,12 @@ const PositionCard = ({ imgURL, designation, org, startDate, endDate }) => {
                     ></Image>
                 </Box>
 
-                <div>
-                    <VStack align="flex-start" spacing="0px">
-                        <Text fontSize="lg" fontWeight={700}>
-                            {designation}
-                        </Text>
-                        <Text fontSize="sm">{org}</Text>
-                    </VStack>
-                </div>
+                <VStack align="flex-start" spacing="0px">
+                    <Text fontSize="lg" fontWeight={700}>
+                        {designation}
+                    </Text>
+                    <Text fontSize="sm">{org}</Text>
+                </VStack>
 
                 <Spacer></Spacer>
 
@@ -41,8 +39,9 @@ const PositionCard = ({ imgURL, designation, org, startDate, endDate }) => {
 const Positions = ({ data }) => {
     return (
         <VStack my="3">
-            {data.map((x) => (
+            {data.map((x, i) => (
                 <PositionCard
+                    key={i}
                     imgURL="https://picsum.photos/200/200"
                     designation="Web Team Lead"
                     org="DSC KIIT"

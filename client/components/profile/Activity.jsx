@@ -59,11 +59,12 @@ const ActivityCard = ({ title, date, emoji, children }) => {
 const Activity = ({ data }) => {
     return (
         <Box my="3">
-            {data.map((x) => (
+            {data.map((x, i) => (
                 <ActivityCard
+                    key={i}
                     title="Started working on Notion Tools"
                     date="June 16th, 2021"
-                    emoji="🍎"
+                    emoji="😆"
                 >
                     djasndkajndakjndksjdnkajndkasjndkajsdnaksjdnakjsdnkasjdnaksjdn
                 </ActivityCard>

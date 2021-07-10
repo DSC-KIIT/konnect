@@ -10,6 +10,9 @@ const getSocialsFromList = (socialLinks) => {
         github: <Icon.GitHub size={ICON_SIZE}></Icon.GitHub>,
         instagram: <Icon.Instagram size={ICON_SIZE}></Icon.Instagram>,
         facebook: <Icon.Facebook size={ICON_SIZE}></Icon.Facebook>,
+        medium: <Icon.BookOpen size={ICON_SIZE}></Icon.BookOpen>,
+        "dev.to": <Icon.BookOpen size={ICON_SIZE}></Icon.BookOpen>,
+        gitlab: <Icon.Gitlab size={ICON_SIZE}></Icon.Gitlab>,
         linkedin: <Icon.Linkedin size={ICON_SIZE}></Icon.Linkedin>,
         youtube: <Icon.Youtube size={ICON_SIZE}></Icon.Youtube>,
         spotify: <Icon.Headphones size={ICON_SIZE}></Icon.Headphones>,
@@ -40,11 +43,22 @@ const Socials = ({ list }) => {
     const socialsData = getSocialsFromList(list)
 
     return (
-        <HStack spacing="3">
-            {socialsData.map((x) => {
-                return <a href={x["url"]}>{x.icon}</a>
-            })}
-        </HStack>
+        <div>
+            <HStack spacing="3">
+                {socialsData.map((x, i) => {
+                    return (
+                        <a
+                            key={i}
+                            href={x["url"]}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            {x.icon}
+                        </a>
+                    )
+                })}
+            </HStack>
+        </div>
     )
 }
 

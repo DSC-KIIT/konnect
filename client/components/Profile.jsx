@@ -9,13 +9,15 @@ import TagBox from "./profile/TagBox"
 import Bio from "./profile/Bio"
 import Positions from "./profile/Positions"
 import Activity from "./profile/Activity"
+import ProfilePicBar from "./profile/ProfilePicBar"
 
 const Profile = () => {
     return (
         <div>
-            <BranchYear year="third year" branch="CSE"></BranchYear>
+			<ProfilePicBar follower="69" following="420"></ProfilePicBar>
+            <BranchYear year="third year" branch="cse"></BranchYear>
             <NameAndInfo
-                name="Biswaroop Bhattacharjee"
+                name="biswaroop bhattacharjee"
                 username="biswabot"
                 info="Backend Engineering Intern @ Atlan"
                 pronouns="he/him"
@@ -26,7 +28,7 @@ const Profile = () => {
                     "https://github.com/junaidrahim",
                     "https://twitter.com/junaidrahim31",
                     "https://dribbble.com/shots/15508454-Dance-Trainer",
-                    "junaidrahim.me",
+                    "https://junaidrahim.in",
                 ]}
             ></Socials>
             <TagBox tags={[]}></TagBox>
