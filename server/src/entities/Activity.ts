@@ -1,4 +1,5 @@
 export interface IActivity {
+    id: string;
     emoji: string;
     tags: string[];
     startdate: string;
@@ -9,26 +10,18 @@ export interface IActivity {
     media: string[];
 }
 
-class Activity implements IActivity {
-    public emoji: string;
-    public tags: string[];
-    public startdate: string;
-    public enddate: string;
-    public title: string;
-    public description: string;
-    public likes: number[];
-    public media: string[];
+export interface IActivityEntry {
+    username: string;
+    activities: IActivity[];
+}
 
-    constructor(Activity?: IActivity) {
-        this.emoji = Activity?.emoji || '';
-        this.tags = Activity?.tags || [];
-        this.startdate = Activity?.startdate || '';
-        this.enddate = Activity?.enddate || '';
-        this.title = Activity?.title || '';
-        this.description = Activity?.description || '';
-        this.likes = Activity?.likes || [];
-        this.media = Activity?.media || [];
+class ActivityEntry implements IActivityEntry {
+    public username: string;
+    public activities: IActivity[];
+    constructor(activityentry?: IActivityEntry) {
+        this.username = activityentry?.username || '';
+        this.activities = activityentry?.activities || [];
     }
 }
 
-export default Activity;
+export default ActivityEntry;

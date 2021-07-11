@@ -1,4 +1,3 @@
-import { IActivity } from '@entities/Activity';
 const oracledb = require('oracledb');
 require('dotenv').config();
 
@@ -13,15 +12,15 @@ const dbConfig = {
 
 oracledb.autoCommit = true;
 
-async function replaceActivity(key: string, activity: IActivity) {
-    let connection, collection, res;
+async function deleteActivityDoc(username: string) {
+    let connection, collection, doc;
 
     try {
         connection = await oracledb.getConnection(dbConfig);
         const soda = connection.getSodaDatabase();
         collection = await soda.openCollection('activities');
 
-        collection.find().key(key).replaceOne(activity);
+        doc = await collection.find().filter({ username: username }).remove();
     } catch (err) {
         console.error(err);
     }
@@ -34,4 +33,4 @@ async function replaceActivity(key: string, activity: IActivity) {
     }
 }
 
-export default replaceActivity;
+export default deleteActivityDoc;

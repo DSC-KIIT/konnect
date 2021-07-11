@@ -12,7 +12,7 @@ const dbConfig = {
 
 oracledb.autoCommit = true;
 
-async function getActivity(key: string) {
+async function getActivities(username: string) {
     let connection, collection, res, doc;
 
     try {
@@ -20,8 +20,8 @@ async function getActivity(key: string) {
         const soda = connection.getSodaDatabase();
         collection = await soda.openCollection('activities');
 
-        doc = await collection.find().key(key).getOne();
-        res = doc.getContent()
+        doc = await collection.find().filter({ username: username }).getOne();
+        res = doc.getContent();
     } catch (err) {
         console.error(err);
     }
@@ -32,7 +32,7 @@ async function getActivity(key: string) {
             console.error(err);
         }
     }
-    return res
+    return res;
 }
 
-export default getActivity;
+export default getActivities;

@@ -19,26 +19,57 @@ let activityRouter = express.Router();
  * @param res
  * @returns
  */
-activityRouter.get('/:id', async function (req: Request, res: Response) {
-    const { id } = req.params;
-    const activity = await activityDao.getOne(id);
-    return res.status(OK).json({ activity });
-});
-
+activityRouter.get(
+    '/user/:username/key/:key',
+    async function (req: Request, res: Response) {
+        const { username, key } = req.params;
+        const activity = await activityDao.getOne(username, key);
+        return res.status(OK).json({ activity });
+    }
+);
 /**
- * Add one activity.
+ * Get user activitydoc.
  *
  * @param req
  * @param res
  * @returns
  */
-activityRouter.post(
-    '/',
-    validateRequest.isActivity,
+activityRouter.get(
+    '/user/:username',
     async function (req: Request, res: Response) {
-        const activity = req.body;
+        const { username } = req.body;
+        const activity = await activityDao.getAll(username);
+        return res.status(OK).json({ activity });
+    }
+);
 
-        await activityDao.add(activity);
+/**
+ * Insert user activitydoc.
+ *
+ * @param req
+ * @param res
+ * @returns
+ */
+activityRouter.post('/', async function (req: Request, res: Response) {
+    const { activitydoc } = req.body;
+    const activity = await activityDao.insertDoc(activitydoc);
+    return res.status(OK).json({ activity });
+});
+
+/**
+ * Insert one activity.
+ *
+ * @param req
+ * @param res
+ * @returns
+ */
+activityRouter.put(
+    '/insertOne',
+    // validateRequest.isActivity,
+    async function (req: Request, res: Response) {
+        const { username, activity } = req.body;
+
+        await activityDao.add(username, activity);
         return res.status(CREATED).end();
     }
 );
@@ -51,13 +82,12 @@ activityRouter.post(
  * @returns
  */
 activityRouter.put(
-    '/:id',
-    validateRequest.isActivity,
+    '/updateOne',
+    // validateRequest.isActivity,
     async function (req: Request, res: Response) {
-        const { id } = req.params;
-        const Activity = req.body;
+        const { username, activity } = req.body;
 
-        await activityDao.update(id, Activity);
+        await activityDao.update(username, activity);
         return res.status(OK).end();
     }
 );
@@ -69,10 +99,26 @@ activityRouter.put(
  * @param res
  * @returns
  */
-activityRouter.delete('/:id', async function (req: Request, res: Response) {
-    const { id } = req.params;
-    await activityDao.delete(id);
+activityRouter.put('/deleteOne', async function (req: Request, res: Response) {
+    const { username, key } = req.body;
+    await activityDao.delete(username, key);
     return res.status(OK).end();
 });
+
+/**
+ * Delete user activitydoc.
+ *
+ * @param req
+ * @param res
+ * @returns
+ */
+activityRouter.delete(
+    '/user/:username',
+    async function (req: Request, res: Response) {
+        const { username } = req.params;
+        await activityDao.deleteAll(username);
+        return res.status(OK).end();
+    }
+);
 
 export default activityRouter;

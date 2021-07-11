@@ -5,7 +5,7 @@ import StatusCodes from 'http-status-codes';
 const { BAD_REQUEST } = StatusCodes;
 
 import User from '@entities/User';
-import Activity from '@entities/Activity';
+import ActivityEntry from '@entities/Activity';
 import Tag from '@entities/Tag';
 
 class validateRequests {
@@ -29,7 +29,7 @@ class validateRequests {
     }
 
     isActivity(req: Request, res: Response, next: NextFunction) {
-        var keys = Object.keys(new Activity());
+        var keys = Object.keys(new ActivityEntry());
         const activity = req.body;
         if (!activity) {
             return res.status(BAD_REQUEST).json({

@@ -12,7 +12,7 @@ const dbConfig = {
 
 oracledb.autoCommit = true;
 
-async function getTag(key: string) {
+async function getTag(name: string) {
     let connection, collection, res, doc;
 
     try {
@@ -20,7 +20,7 @@ async function getTag(key: string) {
         const soda = connection.getSodaDatabase();
         collection = await soda.openCollection('tags');
 
-        doc = await collection.find().key(key).getOne();
+        doc = await collection.find().filter({ name: name }).getOne();
         res = doc.getContent();
     } catch (err) {
         console.error(err);

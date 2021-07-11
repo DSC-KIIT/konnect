@@ -20,7 +20,7 @@ export interface IUser {
     location: string;
     bio: string;
     positions: IPosition[];
-    tags: number[];
+    tags: string[];
     signupdate: string;
     lastaccessdate: string;
 }
@@ -40,7 +40,7 @@ class User implements IUser {
     public location: string;
     public bio: string;
     public positions: IPosition[];
-    public tags: number[];
+    public tags: string[];
     public signupdate: string;
     public lastaccessdate: string;
 

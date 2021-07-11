@@ -1,8 +1,6 @@
-const oracledb = require('oracledb');
-const { v4: uuidv4 } = require('uuid');
-require('dotenv').config();
-
 import { IActivity } from '@entities/Activity';
+const oracledb = require('oracledb');
+require('dotenv').config();
 
 const dbConfig = {
     user: process.env.NODE_ORACLEDB_USER,
@@ -15,7 +13,7 @@ const dbConfig = {
 
 oracledb.autoCommit = true;
 
-async function insertActivity(username: string, activity: IActivity) {
+async function updateActivity(username: string, activity: IActivity) {
     let connection, collection, res, doc;
 
     try {
@@ -25,8 +23,10 @@ async function insertActivity(username: string, activity: IActivity) {
 
         doc = await collection.find().filter({ username: username }).getOne();
         res = doc.getContent();
-        activity.id = uuidv4();
-        res.activities.push(activity);
+        let index = res.activities.findIndex(
+            ({ id }: { id: string }) => id === activity.id
+        );
+        res.activities[index] = activity;
         
         await collection.find().key(doc.key).replaceOne(res);
     } catch (err) {
@@ -39,7 +39,6 @@ async function insertActivity(username: string, activity: IActivity) {
             console.error(err);
         }
     }
-    return res;
 }
 
-export default insertActivity;
+export default updateActivity;
