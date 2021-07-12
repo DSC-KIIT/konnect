@@ -1,4 +1,5 @@
-interface IPosition {
+export interface IPosition {
+    id: string;
     role: string;
     org: string;
     startdate: string;
@@ -11,7 +12,7 @@ export interface IUser {
     email: string;
     branch: string;
     image: string;
-    coverimg: string;
+    cover: string;
     followers: number;
     following: number;
     socials: string[];
@@ -31,7 +32,7 @@ class User implements IUser {
     public email: string;
     public branch: string;
     public image: string;
-    public coverimg: string;
+    public cover: string;
     public followers: number;
     public following: number;
     public socials: string[];
@@ -50,7 +51,7 @@ class User implements IUser {
         this.email = User?.email || '';
         this.branch = User?.branch || '';
         this.image = User?.image || '';
-        this.coverimg = User?.coverimg || '';
+        this.cover = User?.cover || '';
         this.followers = User?.followers || 0;
         this.following = User?.following || 0;
         this.socials = User?.socials || [];

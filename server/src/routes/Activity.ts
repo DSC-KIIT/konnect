@@ -27,34 +27,6 @@ activityRouter.get(
         return res.status(OK).json({ activity });
     }
 );
-/**
- * Get user activitydoc.
- *
- * @param req
- * @param res
- * @returns
- */
-activityRouter.get(
-    '/user/:username',
-    async function (req: Request, res: Response) {
-        const { username } = req.body;
-        const activity = await activityDao.getAll(username);
-        return res.status(OK).json({ activity });
-    }
-);
-
-/**
- * Insert user activitydoc.
- *
- * @param req
- * @param res
- * @returns
- */
-activityRouter.post('/', async function (req: Request, res: Response) {
-    const { activitydoc } = req.body;
-    const activity = await activityDao.insertDoc(activitydoc);
-    return res.status(OK).json({ activity });
-});
 
 /**
  * Insert one activity.
@@ -63,8 +35,8 @@ activityRouter.post('/', async function (req: Request, res: Response) {
  * @param res
  * @returns
  */
-activityRouter.put(
-    '/insertOne',
+activityRouter.post(
+    '/',
     // validateRequest.isActivity,
     async function (req: Request, res: Response) {
         const { username, activity } = req.body;
@@ -82,7 +54,7 @@ activityRouter.put(
  * @returns
  */
 activityRouter.put(
-    '/updateOne',
+    '/',
     // validateRequest.isActivity,
     async function (req: Request, res: Response) {
         const { username, activity } = req.body;
@@ -99,26 +71,13 @@ activityRouter.put(
  * @param res
  * @returns
  */
-activityRouter.put('/deleteOne', async function (req: Request, res: Response) {
-    const { username, key } = req.body;
-    await activityDao.delete(username, key);
-    return res.status(OK).end();
-});
-
-/**
- * Delete user activitydoc.
- *
- * @param req
- * @param res
- * @returns
- */
 activityRouter.delete(
-    '/user/:username',
+    '/user/:username/key/:key',
     async function (req: Request, res: Response) {
-        const { username } = req.params;
-        await activityDao.deleteAll(username);
+        const { username, key } = req.params;
+        await activityDao.delete(username, key);
         return res.status(OK).end();
     }
 );
 
-export default activityRouter;
+export default activityRouter

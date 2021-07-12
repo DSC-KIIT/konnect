@@ -2,7 +2,7 @@ const oracledb = require('oracledb');
 const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
 
-import { IActivity } from '@entities/Activity';
+import { IPosition } from '@entities/User';
 
 const dbConfig = {
     user: process.env.NODE_ORACLEDB_USER,
@@ -15,18 +15,18 @@ const dbConfig = {
 
 oracledb.autoCommit = true;
 
-async function insertActivity(username: string, activity: IActivity) {
+async function insertPosition(key: string, position: IPosition) {
     let connection, collection, res, doc;
 
     try {
         connection = await oracledb.getConnection(dbConfig);
         const soda = connection.getSodaDatabase();
-        collection = await soda.openCollection('activities');
+        collection = await soda.openCollection('users');
 
-        doc = await collection.find().filter({ username: username }).getOne();
+        doc = await collection.find().key(key).getOne();
         res = doc.getContent();
-        activity.id = uuidv4();
-        res.activities.push(activity);
+        position.id = uuidv4();
+        res.positions.push(position);
 
         await collection.find().key(doc.key).replaceOne(res);
     } catch (err) {
@@ -41,4 +41,4 @@ async function insertActivity(username: string, activity: IActivity) {
     }
 }
 
-export default insertActivity;
+export default insertPosition;
