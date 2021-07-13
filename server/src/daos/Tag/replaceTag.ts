@@ -13,7 +13,7 @@ const dbConfig = {
 
 oracledb.autoCommit = true;
 
-async function replaceTag(name: string, tag: ITag) {
+async function replaceTag(tag: ITag) {
     let connection, collection, doc;
 
     try {
@@ -21,7 +21,7 @@ async function replaceTag(name: string, tag: ITag) {
         const soda = connection.getSodaDatabase();
         collection = await soda.openCollection('tags');
 
-        doc = await collection.find().filter({ name: name }).getOne();
+        doc = await collection.find().filter({ name: tag.name }).getOne();
         await collection.find().key(doc.key).replaceOne(tag);
     } catch (err) {
         console.error(err);

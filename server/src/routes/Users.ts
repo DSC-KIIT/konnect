@@ -15,26 +15,6 @@ let userRouter = express.Router();
  * @swagger
  * components:
  *   schemas:
- *     Position :
- *       type: object
- *       required:
- *         - role
- *         - org
- *         - startdate
- *         - enddate
- *       properties:
- *         role:
- *           type: string
- *           description: role in organization
- *         org:
- *           type: string
- *           description: name of the organization
- *         startdate:
- *           type: string
- *           description: start date at the org
- *         enddate:
- *           type: string
- *           description: end date at the org
  *     User:
  *       type: object
  *       required:
@@ -122,33 +102,25 @@ let userRouter = express.Router();
  *         pronouns: 'He/Him'
  *         location: 'Kolkata'
  *         bio: 'Me nub pls halp'
- *         positions: [{role: 'Full-stack web developer',
+ *         positions: [{id: { id },
+ *                      role: 'Full-stack web developer',
  *                      org: 'Desire Foundation',
  *                      startdate: '',
  *                      enddate: ''}]
  *         tags: ['webdev', 'backend', 'node', 'docker']
  *         signupdate: ''
  *         lastaccessdate: ''
- *     Key:
- *       type: object
- *       required:
- *         - key
- *       properties:
- *         key:
- *           type: string
- *           description: uuid of the user
  */
 
 /**
  * @swagger
  * tags:
  *   name: Users
- *   description: The user managing API
  */
 
 /**
  * @swagger
- * /users:
+ * /api/users:
  *   get:
  *     summary: Returns the list of all the users
  *     tags: [Users]
@@ -176,20 +148,29 @@ userRouter.get('/', async function (req: Request, res: Response) {
 });
 /**
  * @swagger
- * /users/key:
- *   post:
- *     summary: get id by email
+ * /api/users/key/{email}:
+ *   get:
+ *     summary: get uuid by email
  *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: email
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The user email
  *     responses:
  *       200:
- *         description: The list of the users
+ *         description: The uuid of the user
  *         content:
  *           application/json:
  *             schema:
  *               type: object
- *               items:
- *                 $ref: '#/components/schemas/Email'
+ *               properties:
+ *                 key:
+ *                   type: string
  */
+
 /**
  * Get key by email
  *
@@ -197,8 +178,8 @@ userRouter.get('/', async function (req: Request, res: Response) {
  * @param res
  * @returns
  */
-userRouter.post('/key', async function (req: Request, res: Response) {
-    const { email } = req.body;
+userRouter.get('/key/:email', async function (req: Request, res: Response) {
+    const { email } = req.params;
     if (!email) {
         return res.status(BAD_REQUEST).json({
             error: paramMissingError,
@@ -207,9 +188,10 @@ userRouter.post('/key', async function (req: Request, res: Response) {
     const key = await userDao.getKeyByEmail(email);
     return res.status(OK).json({ key: key });
 });
+
 /**
  * @swagger
- * /users/{id}:
+ * /api/users/{id}:
  *   get:
  *     summary: Get the user by id
  *     tags: [Users]
@@ -223,12 +205,12 @@ userRouter.post('/key', async function (req: Request, res: Response) {
  *     responses:
  *       200:
  *         description: The user description by id
- *         contens:
+ *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/User'
  *       404:
- *         description: The book was not found
+ *         description: The user was not found
  */
 /**
  * Get one user.
@@ -239,17 +221,35 @@ userRouter.post('/key', async function (req: Request, res: Response) {
  */
 userRouter.get('/:id', async function (req: Request, res: Response) {
     const { id } = req.params;
+    if (!id) {
+        return res.status(BAD_REQUEST).json({
+            error: paramMissingError,
+        });
+    }
     const user = await userDao.getOne(id);
     return res.status(OK).json({ user });
 });
 
 /**
- * Add one user.
- *
- * @param req
- * @param res
- * @returns
+ * @swagger
+ * /api/users:
+ *   post:
+ *     summary: Creates a user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       201:
+ *         description: Created
+ *       400:
+ *         description: Bad Request
  */
+
+// Add one user
 userRouter.post(
     '/',
     validateRequest.isUser,
@@ -260,6 +260,32 @@ userRouter.post(
         return res.status(CREATED).end();
     }
 );
+
+/**
+ * @swagger
+ * /api/users/{id}:
+ *   put:
+ *     summary: Updates a user
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The user id
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       201:
+ *         description: Updated
+ *       400:
+ *         description: Bad Request
+ */
 
 /**
  * Update one user.
@@ -281,6 +307,25 @@ userRouter.put(
 );
 
 /**
+ * @swagger
+ * /api/users/{id}:
+ *   delete:
+ *     summary: Delete the user by id
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The user id
+ *     responses:
+ *       200:
+ *         description: Deleted
+ *       404:
+ *         description: The user was not found
+ */
+/**
  * Delete one user.
  *
  * @param req
@@ -292,6 +337,5 @@ userRouter.delete('/:id', async function (req: Request, res: Response) {
     await userDao.delete(id);
     return res.status(OK).end();
 });
-
 
 export default userRouter;

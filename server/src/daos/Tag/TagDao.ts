@@ -8,7 +8,7 @@ export interface ITagDao {
     getOne: (id: string) => Promise<ITag | null>;
     getAll: () => Promise<ITag[]>;
     add: (tag: ITag) => Promise<void>;
-    update: (id: string, tag: ITag) => Promise<void>;
+    update: (tag: ITag) => Promise<void>;
     delete: (id: string) => Promise<void>;
 }
 
@@ -43,8 +43,8 @@ class TagDao implements ITagDao {
      * @param id
      * @param tag
      */
-    public async update(id: string, tag: ITag): Promise<void> {
-        await replaceTag(id, tag);
+    public async update(tag: ITag): Promise<void> {
+        await replaceTag(tag);
         return Promise.resolve(undefined);
     }
 

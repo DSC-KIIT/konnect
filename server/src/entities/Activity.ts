@@ -6,7 +6,7 @@ export interface IActivity {
     enddate: string;
     title: string;
     description: string;
-    likes: number[];
+    likes: string[];
     media: string[];
 }
 
