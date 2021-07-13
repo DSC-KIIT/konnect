@@ -49,7 +49,7 @@ activity: {
 }
 ```
 
-```json
+```
 activities: {
     username: 
     activities: [{this object will be of type activity}, {}, {}],
