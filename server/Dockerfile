@@ -1,5 +1,6 @@
 FROM node:14.17.3
 RUN apt update && apt install libaio1
+RUN --mount=type=secret,id=wallet_url
 
 # x86
 # RUN wget https://download.oracle.com/otn_software/linux/instantclient/211000/instantclient-basic-linux.x64-21.1.0.0.0.zip
