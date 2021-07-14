@@ -37,6 +37,5 @@ jobs:
         with:
           context: server
           push: true
-          tags: {% raw %}${{ steps.meta.outputs.tags }}
           secrets: |
             "wallet_url=${{ secrets.WALLET_URL }}"
