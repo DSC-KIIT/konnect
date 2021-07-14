@@ -6,7 +6,7 @@ import { paramMissingError } from '@shared/constants';
 const tagDao = new TagDao();
 const { BAD_REQUEST, CREATED, OK } = StatusCodes;
 
-import validateRequests from '@middlewares/validateRequest';
+import validateRequests from '../middlewares/validateRequests';
 const validateRequest = new validateRequests();
 
 import express from 'express';
