@@ -25,6 +25,7 @@ RUN unzip Wallet_konnect.zip && rm Wallet_konnect.zip
 RUN --mount=type=secret,id=env_file_link wget $(cat /run/secrets/env_file_link)
 RUN mv konnect.env .env
 
+RUN npm install https://github.com/oracle/node-oracledb/releases/download/v5.2.0/oracledb-src-5.2.0.tgz
 RUN npm i
 EXPOSE 8081
 RUN npm run build
