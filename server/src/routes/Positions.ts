@@ -55,6 +55,37 @@ let positionRouter = express.Router();
 
 /**
  * @swagger
+ * /api/positions/{uuid}:
+ *   get:
+ *     summary: Returns the list of all the positions of the user
+ *     tags: [Positions]
+ *     parameters:
+ *       - name: uuid
+ *         in: path
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The user id
+ *     responses:
+ *       200:
+ *         description: The list of positions
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Position'
+ */
+
+// Get all positions.
+positionRouter.get('/:key', async function (req: Request, res: Response) {
+    const { key } = req.params;
+    const positions = await positionDao.getAll(key);
+    return res.status(OK).json({ positions });
+});
+
+/**
+ * @swagger
  * /api/positions/user/{uuid}/position/{positionid}:
  *   get:
  *     summary: Get the position by id

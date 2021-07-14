@@ -1,10 +1,12 @@
 import { IPosition } from '@entities/Position';
 import insertPosition from './insertPosition';
+import getAllPositions from './getAllPositions';
 import getPosition from './getPosition';
 import deletePosition from './deletePosition';
 import updatePosition from './updatePosition';
 
 export interface IPositionDao {
+    getAll: (key: string) => Promise<IPosition[]>;
     get: (key: string, positionid: string) => Promise<IPosition | null>;
     add: (key: string, position: IPosition) => Promise<void>;
     update: (key: string, position: IPosition) => Promise<void>;
@@ -12,6 +14,14 @@ export interface IPositionDao {
 }
 
 class PositionDao implements IPositionDao {
+    /**
+     * @param key
+     */
+    public getAll(key: string): Promise<IPosition[]> {
+        let content = getAllPositions(key);
+        return Promise.resolve(content);
+    }
+
     /**
      * @param key
      * @param positionid
