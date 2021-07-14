@@ -39,5 +39,6 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           secrets: |
+            "github_token=${{ secrets.GITHUB_TOKEN }}"
             "wallet_url=${{ secrets.WALLET_URL }}"
             "env_file_link=${{ secrets.ENV_FILE_LINK }}"
