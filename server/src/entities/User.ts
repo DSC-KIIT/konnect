@@ -1,10 +1,4 @@
-export interface IPosition {
-    id: string;
-    role: string;
-    org: string;
-    startdate: string;
-    endddate: string;
-}
+import { IPosition } from './Position';
 
 export interface IUser {
     username: string;

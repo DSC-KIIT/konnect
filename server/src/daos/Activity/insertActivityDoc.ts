@@ -1,4 +1,4 @@
-import { IActivityEntry } from '@entities/Activity';
+import { IActivityDoc } from '@entities/ActivityDoc';
 const oracledb = require('oracledb');
 require('dotenv').config();
 
@@ -13,7 +13,7 @@ const dbConfig = {
 
 oracledb.autoCommit = true;
 
-async function insertActivityDoc(activity: IActivityEntry) {
+async function insertActivityDoc(activity: IActivityDoc) {
     let connection, collection;
 
     try {

@@ -106,11 +106,15 @@ activityDocRouter.get(
  */
 
 // Insert user activitydoc.
-activityDocRouter.post('/', async function (req: Request, res: Response) {
-    const { activitydoc } = req.body;
-    const activity = await activityDao.insertDoc(activitydoc);
-    return res.status(OK).json({ activity });
-});
+activityDocRouter.post(
+    '/',
+    validateRequest.isActivityDoc,
+    async function (req: Request, res: Response) {
+        const { activitydoc } = req.body;
+        const activity = await activityDao.insertDoc(activitydoc);
+        return res.status(OK).json({ activity });
+    }
+);
 
 /**
  * @swagger
@@ -132,8 +136,7 @@ activityDocRouter.post('/', async function (req: Request, res: Response) {
  *         description: The activitydoc was not found
  */
 
-
-// Delete user activitydoc. 
+// Delete user activitydoc.
 activityDocRouter.delete(
     '/user/:username',
     async function (req: Request, res: Response) {

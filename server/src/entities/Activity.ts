@@ -10,18 +10,28 @@ export interface IActivity {
     media: string[];
 }
 
-export interface IActivityEntry {
-    username: string;
-    activities: IActivity[];
-}
+class Activity implements IActivity {
+    public id: string;
+    public emoji: string;
+    public tags: string[];
+    public startdate: string;
+    public enddate: string;
+    public title: string;
+    public description: string;
+    public likes: string[];
+    public media: string[];
 
-class ActivityEntry implements IActivityEntry {
-    public username: string;
-    public activities: IActivity[];
-    constructor(activityentry?: IActivityEntry) {
-        this.username = activityentry?.username || '';
-        this.activities = activityentry?.activities || [];
+    constructor(activity?: IActivity) {
+        this.id = activity?.id || '';
+        this.emoji = activity?.emoji || '';
+        this.tags = activity?.tags || [];
+        this.startdate = activity?.startdate || '';
+        this.enddate = activity?.enddate || '';
+        this.title = activity?.title || '';
+        this.description = activity?.description || '';
+        this.likes = activity?.likes || [];
+        this.media = activity?.media || [];
     }
 }
 
-export default ActivityEntry;
+export default Activity;

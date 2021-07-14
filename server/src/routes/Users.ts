@@ -135,13 +135,7 @@ let userRouter = express.Router();
  *                 $ref: '#/components/schemas/User'
  */
 
-/**
- * Get all users.
- *
- * @param req
- * @param res
- * @returns
- */
+// Get all users.
 userRouter.get('/', async function (req: Request, res: Response) {
     const users = await userDao.getAll();
     return res.status(OK).json({ users });
@@ -171,13 +165,7 @@ userRouter.get('/', async function (req: Request, res: Response) {
  *                   type: string
  */
 
-/**
- * Get key by email
- *
- * @param req
- * @param res
- * @returns
- */
+// Get key by email
 userRouter.get('/key/:email', async function (req: Request, res: Response) {
     const { email } = req.params;
     if (!email) {
@@ -212,13 +200,8 @@ userRouter.get('/key/:email', async function (req: Request, res: Response) {
  *       404:
  *         description: The user was not found
  */
-/**
- * Get one user.
- *
- * @param req
- * @param res
- * @returns
- */
+
+// Get one user.
 userRouter.get('/:id', async function (req: Request, res: Response) {
     const { id } = req.params;
     if (!id) {
@@ -287,13 +270,7 @@ userRouter.post(
  *         description: Bad Request
  */
 
-/**
- * Update one user.
- *
- * @param req
- * @param res
- * @returns
- */
+// Update one user.
 userRouter.put(
     '/:id',
     validateRequest.isUser,
@@ -325,15 +302,15 @@ userRouter.put(
  *       404:
  *         description: The user was not found
  */
-/**
- * Delete one user.
- *
- * @param req
- * @param res
- * @returns
- */
+
+// Delete one user.
 userRouter.delete('/:id', async function (req: Request, res: Response) {
     const { id } = req.params;
+    if (!id) {
+        return res.status(BAD_REQUEST).json({
+            error: paramMissingError,
+        });
+    }
     await userDao.delete(id);
     return res.status(OK).end();
 });

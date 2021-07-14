@@ -5,7 +5,9 @@ import StatusCodes from 'http-status-codes';
 const { BAD_REQUEST } = StatusCodes;
 
 import User from '@entities/User';
-import ActivityEntry from '@entities/Activity';
+import Position from '@entities/Position';
+import Activity from '@entities/Activity';
+import ActivityDoc from '@entities/ActivityDoc';
 import Tag from '@entities/Tag';
 
 class validateRequests {
@@ -29,8 +31,8 @@ class validateRequests {
     }
 
     isActivity(req: Request, res: Response, next: NextFunction) {
-        var keys = Object.keys(new ActivityEntry());
-        const activity = req.body;
+        var keys = Object.keys(new Activity());
+        const { activity } = req.body;
         if (!activity) {
             return res.status(BAD_REQUEST).json({
                 error: paramMissingError,
@@ -39,6 +41,45 @@ class validateRequests {
         if (
             keys.every((key) => Object.keys(activity).includes(key)) &&
             Object.keys(keys).length == Object.keys(activity).length
+        ) {
+            next();
+        } else
+            res.status(BAD_REQUEST).json({
+                error: 'badType',
+            });
+    }
+
+    isActivityDoc(req: Request, res: Response, next: NextFunction) {
+        var keys = Object.keys(new ActivityDoc());
+        const { activitydoc } = req.body;
+        if (!activitydoc) {
+            return res.status(BAD_REQUEST).json({
+                error: paramMissingError,
+            });
+        }
+        if (
+            keys.every((key) => Object.keys(activitydoc).includes(key)) &&
+            Object.keys(keys).length == Object.keys(activitydoc).length
+        ) {
+            next();
+        } else
+            res.status(BAD_REQUEST).json({
+                error: 'badType',
+            });
+    }
+
+    isPosition(req: Request, res: Response, next: NextFunction) {
+        var keys = Object.keys(new Position());
+
+        const { position } = req.body;
+        if (!position) {
+            return res.status(BAD_REQUEST).json({
+                error: paramMissingError,
+            });
+        }
+        if (
+            keys.every((key) => Object.keys(position).includes(key)) &&
+            Object.keys(keys).length == Object.keys(position).length
         ) {
             next();
         } else

@@ -1,7 +1,7 @@
 import { IActivity } from '@entities/Activity';
-import { IActivityEntry } from '@entities/Activity';
-import getOneActivity from './getOneActivity';
-import getActivities from './getActivities';
+import { IActivityDoc } from '@entities/ActivityDoc';
+import getActivity from './getActivity';
+import getActivityDoc from './getActivityDoc';
 import insertActivity from './insertActivity';
 import insertActivityDoc from './insertActivityDoc';
 import deleteActivity from './deleteActivity';
@@ -10,8 +10,8 @@ import updateActivity from './updateActivity';
 
 export interface IActivityDao {
     getOne: (username: string, key: string) => Promise<IActivity | null>;
-    getAll: (username: string) => Promise<IActivityEntry | null>;
-    insertDoc: (activitydoc: IActivityEntry) => Promise<void>;
+    getAll: (username: string) => Promise<IActivityDoc | null>;
+    insertDoc: (activitydoc: IActivityDoc) => Promise<void>;
     add: (username: string, activity: IActivity) => Promise<void>;
     update: (username: string, activity: IActivity) => Promise<void>;
     delete: (username: string, key: string) => Promise<void>;
@@ -24,15 +24,15 @@ class ActivityDao implements IActivityDao {
      * @param id
      */
     public getOne(username: string, key: string): Promise<IActivity | null> {
-        let content = getOneActivity(username, key);
+        let content = getActivity(username, key);
         return Promise.resolve(content);
     }
 
     /**
      * @param username
      */
-    public getAll(username: string): Promise<IActivityEntry> {
-        let content = getActivities(username);
+    public getAll(username: string): Promise<IActivityDoc> {
+        let content = getActivityDoc(username);
         return Promise.resolve(content);
     }
 
@@ -48,7 +48,7 @@ class ActivityDao implements IActivityDao {
     /**
      * @param activitydoc
      */
-    public async insertDoc(activitydoc: IActivityEntry): Promise<void> {
+    public async insertDoc(activitydoc: IActivityDoc): Promise<void> {
         await insertActivityDoc(activitydoc);
         return Promise.resolve(undefined);
     }

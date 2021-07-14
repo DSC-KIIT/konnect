@@ -83,16 +83,16 @@ let positionRouter = express.Router();
  *         description: not found
  */
 
-/**
- * get one position
- * @param req
- * @param res
- * @returns
- */
+// get one position
 positionRouter.get(
     '/user/:key/position/:positionid',
     async function (req: Request, res: Response) {
         const { key, positionid } = req.params;
+        if (!key || !positionid) {
+            return res.status(BAD_REQUEST).json({
+                error: paramMissingError,
+            });
+        }
         const position = await positionDao.get(key, positionid);
         return res.status(OK).json({ position });
     }
@@ -121,17 +121,17 @@ positionRouter.get(
  *       400:
  *         description: Bad Request
  */
-/**
- * insert one position
- * @param req
- * @param res
- * @returns
- */
-positionRouter.post('/', async function (req: Request, res: Response) {
-    const { key, position } = req.body;
-    await positionDao.add(key, position);
-    return res.status(CREATED).end();
-});
+
+// insert one position
+positionRouter.post(
+    '/',
+    validateRequest.isPosition,
+    async function (req: Request, res: Response) {
+        const { key, position } = req.body;
+        await positionDao.add(key, position);
+        return res.status(CREATED).end();
+    }
+);
 
 /**
  * @swagger
@@ -158,17 +158,16 @@ positionRouter.post('/', async function (req: Request, res: Response) {
  *         description: Bad Request
  */
 
-/**
- * update one position
- * @param req
- * @param res
- * @returns
- */
-positionRouter.put('/', async function (req: Request, res: Response) {
-    const { key, position } = req.body;
-    await positionDao.update(key, position);
-    return res.status(OK).end();
-});
+// update one position
+positionRouter.put(
+    '/',
+    validateRequest.isPosition,
+    async function (req: Request, res: Response) {
+        const { key, position } = req.body;
+        await positionDao.update(key, position);
+        return res.status(OK).end();
+    }
+);
 
 /**
  * @swagger
@@ -196,16 +195,16 @@ positionRouter.put('/', async function (req: Request, res: Response) {
  *         description: The position was not found
  */
 
-/**
- * delete one position
- * @param req
- * @param res
- * @returns
- */
+// delete one position
 positionRouter.delete(
     '/user/:key/position/:positionid',
     async function (req: Request, res: Response) {
         const { key, positionid } = req.params;
+        if (!key || !positionid) {
+            return res.status(BAD_REQUEST).json({
+                error: paramMissingError,
+            });
+        }
         await positionDao.delete(key, positionid);
         return res.status(OK).end();
     }

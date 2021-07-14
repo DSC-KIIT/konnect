@@ -1,4 +1,4 @@
-import { IPosition } from '@entities/User';
+import { IPosition } from '@entities/Position';
 import insertPosition from './insertPosition';
 import getPosition from './getPosition';
 import deletePosition from './deletePosition';

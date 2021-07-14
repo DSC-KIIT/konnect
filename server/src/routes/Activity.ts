@@ -98,12 +98,16 @@ let activityRouter = express.Router();
  */
 
 // Get one activity.
-
 activityRouter.get(
-    '/user/:username/activityid/:id',
+    '/user/:username/activityid/:activityid',
     async function (req: Request, res: Response) {
-        const { username, id } = req.params;
-        const activity = await activityDao.getOne(username, id);
+        const { username, activityid } = req.params;
+        if (!username || !activityid) {
+            return res.status(BAD_REQUEST).json({
+                error: paramMissingError,
+            });
+        }
+        const activity = await activityDao.getOne(username, activityid);
         return res.status(OK).json({ activity });
     }
 );
@@ -136,7 +140,7 @@ activityRouter.get(
 // Insert one activity.
 activityRouter.post(
     '/',
-    // validateRequest.isActivity,
+    validateRequest.isActivity,
     async function (req: Request, res: Response) {
         const { username, activity } = req.body;
 
@@ -170,16 +174,10 @@ activityRouter.post(
  *         description: Bad Request
  */
 
-/**
- * Update one activity.
- *
- * @param req
- * @param res
- * @returns
- */
+// Update one activity.
 activityRouter.put(
     '/',
-    // validateRequest.isActivity,
+    validateRequest.isActivity,
     async function (req: Request, res: Response) {
         const { username, activity } = req.body;
 
@@ -190,7 +188,7 @@ activityRouter.put(
 
 /**
  * @swagger
- * /api/activity/user/{username}/key/{activityid}:
+ * /api/activity/user/{username}/activityid/{activityid}:
  *   delete:
  *     summary: Delete the activity by username and id
  *     tags: [Activity]
@@ -214,18 +212,17 @@ activityRouter.put(
  *         description: The activity was not found
  */
 
-/**
- * Delete one activity.
- *
- * @param req
- * @param res
- * @returns
- */
+// Delete one activity.
 activityRouter.delete(
-    '/user/:username/key/:key',
+    '/user/:username/activityid/:activityid',
     async function (req: Request, res: Response) {
-        const { username, key } = req.params;
-        await activityDao.delete(username, key);
+        const { username, activityid } = req.params;
+        if (!username || !activityid) {
+            return res.status(BAD_REQUEST).json({
+                error: paramMissingError,
+            });
+        }
+        await activityDao.delete(username, activityid);
         return res.status(OK).end();
     }
 );

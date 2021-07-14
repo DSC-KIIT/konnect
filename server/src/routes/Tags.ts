@@ -66,6 +66,11 @@ let tagRouter = express.Router();
 // Get one tag.
 tagRouter.get('/:name', async function (req: Request, res: Response) {
     const { name } = req.params;
+    if (!name) {
+        return res.status(BAD_REQUEST).json({
+            error: paramMissingError,
+        });
+    }
     const tag = await tagDao.getOne(name);
     return res.status(OK).json({ tag });
 });
@@ -92,7 +97,7 @@ tagRouter.get('/:name', async function (req: Request, res: Response) {
 // Add one tag.
 tagRouter.post(
     '/',
-    // validateRequest.isTag,
+    validateRequest.isTag,
     async function (req: Request, res: Response) {
         const tag = req.body;
 
@@ -124,7 +129,7 @@ tagRouter.post(
 
 tagRouter.put(
     '/',
-    // validateRequest.isTag,
+    validateRequest.isTag,
     async function (req: Request, res: Response) {
         const tag = req.body;
 
@@ -162,6 +167,11 @@ tagRouter.put(
  */
 tagRouter.delete('/:name', async function (req: Request, res: Response) {
     const { name } = req.params;
+    if (!name) {
+        return res.status(BAD_REQUEST).json({
+            error: paramMissingError,
+        });
+    }
     await tagDao.delete(name);
     return res.status(OK).end();
 });

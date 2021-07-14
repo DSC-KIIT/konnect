@@ -2,7 +2,7 @@ const oracledb = require('oracledb');
 const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
 
-import { IPosition } from '@entities/User';
+import { IPosition } from '@entities/Position';
 
 const dbConfig = {
     user: process.env.NODE_ORACLEDB_USER,
