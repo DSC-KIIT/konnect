@@ -1,7 +1,5 @@
 FROM node:14.17.3
 RUN apt update && apt install libaio1
-RUN --mount=type=secret,id=wallet_url \
-  cat /run/secrets/wallet_url
 
 # x86
 # RUN wget https://download.oracle.com/otn_software/linux/instantclient/211000/instantclient-basic-linux.x64-21.1.0.0.0.zip
@@ -22,9 +20,9 @@ RUN export LD_LIBRARY_PATH=/opt/oracle/instantclient_19_10:$LD_LIBRARY_PATH
 WORKDIR /konnect
 ADD . /konnect
 
-RUN wget $(cat /run/secrets/wallet_url)
+RUN --mount=type=secret,id=wallet_url wget $(cat /run/secrets/wallet_url)
 RUN unzip Wallet_konnect.zip && rm Wallet_konnect.zip
-RUN wget $(cat /run/secrets/env_file_link)
+RUN --mount=type=secret,id=env_file_link wget $(cat /run/secrets/env_file_link)
 RUN mv konnect.env .env
 
 RUN npm i
