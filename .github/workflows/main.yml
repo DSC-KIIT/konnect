@@ -39,3 +39,4 @@ jobs:
           push: true
           secrets: |
             "wallet_url=${{ secrets.WALLET_URL }}"
+            "env_file_link=${{ secrets.ENV_FILE_LINK }}"

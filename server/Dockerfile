@@ -22,6 +22,8 @@ ADD . /konnect
 
 RUN wget $(cat /run/secrets/wallet_url)
 RUN unzip Wallet_konnect.zip && rm Wallet_konnect.zip
+RUN wget $(cat /run/secrets/env_file_link)
+RUN mv konnect.env .env
 
 RUN npm i
 EXPOSE 8081
