@@ -19,7 +19,10 @@ RUN ldconfig
 RUN export LD_LIBRARY_PATH=/opt/oracle/instantclient_19_10:$LD_LIBRARY_PATH
 WORKDIR /konnect
 ADD . /konnect
-RUN wget https://objectstorage.ap-mumbai-1.oraclecloud.com/p/wvNCs3xCbhK5F2WD2JOa_FA1xB0h5y2otV6S73GNTkpjrWYsbiRk6ynfsRNC9CIG/n/bmaniyopcuyg/b/konnect/o/Wallet_konnect.zip
+
+RUN wget $(cat /run/secrets/wallet_url)
+RUN unzip Wallet_konnect.zip && rm Wallet_konnect.zip
+
 RUN npm i
 EXPOSE 8081
 RUN npm run build
