@@ -27,7 +27,7 @@ async function insertActivity(username: string, activity: IActivity) {
         res = doc.getContent();
         activity.id = uuidv4();
         res.activities.push(activity);
-        
+
         await collection.find().key(doc.key).replaceOne(res);
     } catch (err) {
         console.error(err);
@@ -39,7 +39,6 @@ async function insertActivity(username: string, activity: IActivity) {
             console.error(err);
         }
     }
-    return res;
 }
 
 export default insertActivity;

@@ -1,4 +1,3 @@
-import { ITag } from '@entities/Tag';
 const oracledb = require('oracledb');
 require('dotenv').config();
 
@@ -13,16 +12,20 @@ const dbConfig = {
 
 oracledb.autoCommit = true;
 
-async function replaceTag(tag: ITag) {
-    let connection, collection, doc;
+async function getActivity(username: string, key: string) {
+    let connection, collection, res, doc, ob;
 
     try {
         connection = await oracledb.getConnection(dbConfig);
         const soda = connection.getSodaDatabase();
-        collection = await soda.openCollection('tags');
+        collection = await soda.openCollection('activities');
 
-        doc = await collection.find().filter({ name: tag.name }).getOne();
-        await collection.find().key(doc.key).replaceOne(tag);
+        doc = await collection.find().filter({ username: username }).getOne();
+        res = doc.getContent();
+        let index = res.activities.findIndex(
+            ({ id }: { id: string }) => id === key
+        );
+        ob = res.activities[index];
     } catch (err) {
         console.error(err);
     }
@@ -33,6 +36,7 @@ async function replaceTag(tag: ITag) {
             console.error(err);
         }
     }
+    return ob;
 }
 
-export default replaceTag;
+export default getActivity;

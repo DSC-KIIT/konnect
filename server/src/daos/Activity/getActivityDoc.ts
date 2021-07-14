@@ -12,7 +12,7 @@ const dbConfig = {
 
 oracledb.autoCommit = true;
 
-async function getActivities(username: string) {
+async function getActivityDoc(username: string) {
     let connection, collection, res, doc;
 
     try {
@@ -35,4 +35,4 @@ async function getActivities(username: string) {
     return res;
 }
 
-export default getActivities;
+export default getActivityDoc;
