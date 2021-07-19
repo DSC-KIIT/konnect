@@ -16,11 +16,11 @@ const Card = ({ cardDetails }) => {
                 <HStack spacing="1vw">
                     <Box><Image
                         borderRadius="50%"
-                        boxSize="2.5rem"
+                        boxSize="40px"
                         src="https://bit.ly/sage-adebayo"
                         alt="Segun Adebayo"
                     /></Box>
-                    <Box>
+                    <Box fontWeight="bold" >
                         {cardDetails.name}
                     </Box>
                     <Box>

@@ -28,13 +28,15 @@ function TagCheckBox(props) {
         _focus={{
           boxShadow: "outline",
         }}
-        px={5}
-        py={2}
+        px={2}
+        py={1}
       >
-        <HStack>
-          <Box><Briefcase /></Box>
-          <Box><Center>{props.children}</Center></Box>
-        </HStack>
+        <Center>
+          <HStack>
+            <Box><Briefcase /></Box>
+            <Box>{props.children}</Box>
+          </HStack>
+        </Center>
       </Box>
     </Box>
 
