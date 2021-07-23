@@ -1,10 +1,12 @@
+import { IPosition } from './Position';
+
 export interface IUser {
     username: string;
     name: string;
     email: string;
     branch: string;
     image: string;
-    coverimg: string;
+    cover: string;
     followers: number;
     following: number;
     socials: string[];
@@ -12,8 +14,8 @@ export interface IUser {
     pronouns: string;
     location: string;
     bio: string;
-    positions: object[];
-    tags: number[];
+    positions: IPosition[];
+    tags: string[];
     signupdate: string;
     lastaccessdate: string;
 }
@@ -24,7 +26,7 @@ class User implements IUser {
     public email: string;
     public branch: string;
     public image: string;
-    public coverimg: string;
+    public cover: string;
     public followers: number;
     public following: number;
     public socials: string[];
@@ -32,29 +34,29 @@ class User implements IUser {
     public pronouns: string;
     public location: string;
     public bio: string;
-    public positions: object[];
-    public tags: number[];
+    public positions: IPosition[];
+    public tags: string[];
     public signupdate: string;
     public lastaccessdate: string;
 
-    constructor(User: IUser) {
-        this.username = User.username;
-        this.name = User.name;
-        this.email = User.email;
-        this.branch = User.branch;
-        this.image = User.image;
-        this.coverimg = User.coverimg;
-        this.followers = User.followers;
-        this.following = User.following;
-        this.socials = User.socials;
-        this.header = User.header;
-        this.pronouns = User.pronouns;
-        this.location = User.location;
-        this.bio = User.bio;
-        this.positions = User.positions;
-        this.tags = User.tags;
-        this.signupdate = User.signupdate;
-        this.lastaccessdate = User.lastaccessdate;
+    constructor(User?: IUser) {
+        this.username = User?.username || '';
+        this.name = User?.name || '';
+        this.email = User?.email || '';
+        this.branch = User?.branch || '';
+        this.image = User?.image || '';
+        this.cover = User?.cover || '';
+        this.followers = User?.followers || 0;
+        this.following = User?.following || 0;
+        this.socials = User?.socials || [];
+        this.header = User?.header || '';
+        this.pronouns = User?.pronouns || '';
+        this.location = User?.location || '';
+        this.bio = User?.bio || '';
+        this.positions = User?.positions || [];
+        this.tags = User?.tags || [];
+        this.signupdate = User?.signupdate || '';
+        this.lastaccessdate = User?.lastaccessdate || '';
     }
 }
 

@@ -1,4 +1,4 @@
-import { ITag } from '@entities/Tag';
+import { IActivity } from '@entities/Activity';
 const oracledb = require('oracledb');
 require('dotenv').config();
 
@@ -13,15 +13,22 @@ const dbConfig = {
 
 oracledb.autoCommit = true;
 
-async function insertTag(tag: ITag) {
-    let connection, collection;
+async function updateActivity(username: string, activity: IActivity) {
+    let connection, collection, res, doc;
 
     try {
         connection = await oracledb.getConnection(dbConfig);
         const soda = connection.getSodaDatabase();
-        collection = await soda.openCollection('tags');
+        collection = await soda.openCollection('activities');
 
-        collection.insertOne(tag);
+        doc = await collection.find().filter({ username: username }).getOne();
+        res = doc.getContent();
+        let index = res.activities.findIndex(
+            ({ id }: { id: string }) => id === activity.id
+        );
+        res.activities[index] = activity;
+        
+        await collection.find().key(doc.key).replaceOne(res);
     } catch (err) {
         console.error(err);
     }
@@ -34,4 +41,4 @@ async function insertTag(tag: ITag) {
     }
 }
 
-export default insertTag;
+export default updateActivity;

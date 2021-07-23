@@ -3,10 +3,13 @@ import insertUser from './insertUser';
 import getUser from './getUser';
 import deleteUser from './deleteUser';
 import replaceUser from './replaceUser';
+import getKey from './getKey';
+import getAllUsers from './getAllUsers';
 
 export interface IUserDao {
     getOne: (id: string) => Promise<IUser | null>;
     getAll: () => Promise<IUser[]>;
+    getKeyByEmail: (email: string) => Promise<string | null>;
     add: (user: IUser) => Promise<void>;
     update: (id: string, user: IUser) => Promise<void>;
     delete: (id: string) => Promise<void>;
@@ -25,8 +28,15 @@ class UserDao implements IUserDao {
      *
      */
     public getAll(): Promise<IUser[]> {
-        // TODO
-        return Promise.resolve([]);
+        let content = getAllUsers();
+        return Promise.resolve(content);
+    }
+    /**
+     * @param email
+     */
+    public getKeyByEmail(email: string): Promise<string | null> {
+        let key = getKey(email);
+        return Promise.resolve(key);
     }
 
     /**

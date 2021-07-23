@@ -44,9 +44,28 @@ async function run() {
 
         // Create a new SODA collection and index
         // This will open an existing collection, if the name is already in use.
-        soda.createCollection('users', { metaData: md });
-        soda.createCollection('activities', { metaData: md });
-        soda.createCollection('tags', { metaData: md });
+        let collection = await soda.createCollection('users', { metaData: md });
+        let indexSpec = {
+            name: 'user-email-index',
+            fields: [{ path: 'email', datatype: 'string' }],
+        };
+        await collection.createIndex(indexSpec);
+
+        collection = await soda.createCollection('activities', {
+            metaData: md,
+        });
+        indexSpec = {
+            name: 'activity-username-index',
+            fields: [{ path: 'username', datatype: 'string' }],
+        };
+        await collection.createIndex(indexSpec);
+
+        collection = await soda.createCollection('tags', { metaData: md });
+        indexSpec = {
+            name: 'tag-name-index',
+            fields: [{ path: 'name', datatype: 'string' }],
+        };
+        await collection.createIndex(indexSpec);
     } catch (err) {
         console.error(err);
     }

@@ -10,15 +10,22 @@ const dbConfig = {
     poolIncrement: 0,
 };
 
-async function getActivity(key: string) {
-    let connection, collection, res;
+oracledb.autoCommit = true;
+
+async function getActivity(username: string, key: string) {
+    let connection, collection, res, doc, ob;
 
     try {
         connection = await oracledb.getConnection(dbConfig);
         const soda = connection.getSodaDatabase();
         collection = await soda.openCollection('activities');
 
-        res = await collection.find().key(key).getOne();
+        doc = await collection.find().filter({ username: username }).getOne();
+        res = doc.getContent();
+        let index = res.activities.findIndex(
+            ({ id }: { id: string }) => id === key
+        );
+        ob = res.activities[index];
     } catch (err) {
         console.error(err);
     }
@@ -29,7 +36,7 @@ async function getActivity(key: string) {
             console.error(err);
         }
     }
-    return res.getContent();
+    return ob;
 }
 
 export default getActivity;

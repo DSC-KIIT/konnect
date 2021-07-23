@@ -10,7 +10,9 @@ const dbConfig = {
     poolIncrement: 0,
 };
 
-async function deleteTag(key: string) {
+oracledb.autoCommit = true;
+
+async function deleteTag(name: string) {
     let connection, collection, res;
 
     try {
@@ -18,7 +20,7 @@ async function deleteTag(key: string) {
         const soda = connection.getSodaDatabase();
         collection = await soda.openCollection('tags');
 
-        collection.find().key(key).remove();
+        collection.find().filter({ name: name }).remove();
     } catch (err) {
         console.error(err);
     }

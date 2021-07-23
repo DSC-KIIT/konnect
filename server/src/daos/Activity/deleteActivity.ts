@@ -10,15 +10,24 @@ const dbConfig = {
     poolIncrement: 0,
 };
 
-async function deleteActivity(key: string) {
-    let connection, collection, res;
+oracledb.autoCommit = true;
+
+async function deleteActivity(username: string, key: string) {
+    let connection, collection, doc, res;
 
     try {
         connection = await oracledb.getConnection(dbConfig);
         const soda = connection.getSodaDatabase();
-        collection = await soda.openCollection('acitivities');
+        collection = await soda.openCollection('activities');
 
-        collection.find().key(key).remove();
+        doc = await collection.find().filter({ username: username }).getOne();
+        res = doc.getContent();
+        let index = res.activities.findIndex(
+            ({ id }: { id: string }) => id === key
+        );
+        res.activities.splice(index, 1);
+
+        await collection.find().key(doc.key).replaceOne(res);
     } catch (err) {
         console.error(err);
     }

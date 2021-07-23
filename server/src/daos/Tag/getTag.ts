@@ -10,15 +10,18 @@ const dbConfig = {
     poolIncrement: 0,
 };
 
-async function getTag(key: string) {
-    let connection, collection, res;
+oracledb.autoCommit = true;
+
+async function getTag(name: string) {
+    let connection, collection, res, doc;
 
     try {
         connection = await oracledb.getConnection(dbConfig);
         const soda = connection.getSodaDatabase();
         collection = await soda.openCollection('tags');
 
-        res = await collection.find().key(key).getOne();
+        doc = await collection.find().filter({ name: name }).getOne();
+        res = doc.getContent();
     } catch (err) {
         console.error(err);
     }
@@ -29,7 +32,7 @@ async function getTag(key: string) {
             console.error(err);
         }
     }
-    return res.getContent();
+    return res;
 }
 
 export default getTag;

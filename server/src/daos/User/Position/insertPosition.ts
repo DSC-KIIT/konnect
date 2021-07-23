@@ -1,6 +1,8 @@
-import { ITag } from '@entities/Tag';
 const oracledb = require('oracledb');
+const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
+
+import { IPosition } from '@entities/Position';
 
 const dbConfig = {
     user: process.env.NODE_ORACLEDB_USER,
@@ -13,15 +15,20 @@ const dbConfig = {
 
 oracledb.autoCommit = true;
 
-async function insertTag(tag: ITag) {
-    let connection, collection;
+async function insertPosition(key: string, position: IPosition) {
+    let connection, collection, res, doc;
 
     try {
         connection = await oracledb.getConnection(dbConfig);
         const soda = connection.getSodaDatabase();
-        collection = await soda.openCollection('tags');
+        collection = await soda.openCollection('users');
 
-        collection.insertOne(tag);
+        doc = await collection.find().key(key).getOne();
+        res = doc.getContent();
+        position.id = uuidv4();
+        res.positions.push(position);
+
+        await collection.find().key(doc.key).replaceOne(res);
     } catch (err) {
         console.error(err);
     }
@@ -34,4 +41,4 @@ async function insertTag(tag: ITag) {
     }
 }
 
-export default insertTag;
+export default insertPosition;

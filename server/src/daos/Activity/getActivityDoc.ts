@@ -1,4 +1,3 @@
-import { IActivity } from '@entities/Activity';
 const oracledb = require('oracledb');
 require('dotenv').config();
 
@@ -11,15 +10,18 @@ const dbConfig = {
     poolIncrement: 0,
 };
 
-async function replaceUser(key: string, activity: IActivity) {
-    let connection, collection, res;
+oracledb.autoCommit = true;
+
+async function getActivityDoc(username: string) {
+    let connection, collection, res, doc;
 
     try {
         connection = await oracledb.getConnection(dbConfig);
         const soda = connection.getSodaDatabase();
         collection = await soda.openCollection('activities');
 
-        collection.find().key(key).replaceOne(activity);
+        doc = await collection.find().filter({ username: username }).getOne();
+        res = doc.getContent();
     } catch (err) {
         console.error(err);
     }
@@ -30,6 +32,7 @@ async function replaceUser(key: string, activity: IActivity) {
             console.error(err);
         }
     }
+    return res;
 }
 
-export default replaceUser;
+export default getActivityDoc;
